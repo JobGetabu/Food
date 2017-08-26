@@ -20,6 +20,11 @@ public class DataItem {
     }
 
     public DataItem(String itemId, String itemName, String category, String description, int sortPosition, double price, String image) {
+
+        if (itemId == null) {
+            itemId = UUID.randomUUID().toString();
+        }
+
         this.itemId = itemId;
         this.itemName = itemName;
         this.category = category;
@@ -31,9 +36,7 @@ public class DataItem {
 
     public String getItemId() {
 
-        if (itemId == null) {
-            itemId = UUID.randomUUID().toString();
-        }
+
         return itemId;
     }
 

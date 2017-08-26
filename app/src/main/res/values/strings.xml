@@ -3,4 +3,6 @@
     <string name="price_txt_sample">$45</string>
     <string name="food_title">food_title</string>
     <string name="food_description">food_description</string>
+    <string name="more_info">more</string>
+    <string name="less_info">less</string>
 </resources>

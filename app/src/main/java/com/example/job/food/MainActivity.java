@@ -32,5 +32,6 @@ public class MainActivity extends AppCompatActivity {
                 GridLayoutManager(this,getResources().getInteger(R.integer.grid_count));
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
     }
 }

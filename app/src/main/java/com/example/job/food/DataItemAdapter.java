@@ -2,7 +2,9 @@ package com.example.job.food;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,9 +45,10 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.DataIt
 
     Locale locale = Locale.getDefault();
     NumberFormat formatMoney = NumberFormat.getCurrencyInstance(locale);
+    int mExpandedPosition = -1;
 
     @Override
-    public void onBindViewHolder(DataItemViewHolder holder, int position) {
+    public void onBindViewHolder(final DataItemViewHolder holder, final int position) {
 
         //DataItem dataItem = new DataItem();
         holder.foodName.setText(dataItemList.get(position).getItemName());
@@ -59,6 +62,26 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.DataIt
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+
+
+        final boolean isExpanded = position==mExpandedPosition;
+        holder.foodDescription.setVisibility(isExpanded?View.VISIBLE:View.GONE);
+        holder.itemView.setActivated(isExpanded);
+
+        holder.moreInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TransitionManager.beginDelayedTransition(holder.cardView);
+                mExpandedPosition = isExpanded ? -1:position;
+                if (mExpandedPosition == position){
+                    holder.moreInfo.setText(mContext.getText(R.string.less_info));
+                }else {
+                    holder.moreInfo.setText(mContext.getText(R.string.more_info));
+                }
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -72,8 +95,9 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.DataIt
         ImageView imageFood;
         TextView foodName;
         TextView foodDescription;
-
+        CardView cardView;
         View mView;
+        TextView moreInfo;
         public DataItemViewHolder(View itemView) {
             super(itemView);
 
@@ -82,6 +106,8 @@ public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.DataIt
             imageFood = (ImageView) mView.findViewById(R.id.image_food);
             foodName = (TextView) mView.findViewById(R.id.tv_item_name);
             foodDescription = (TextView) mView.findViewById(R.id.tv_item_description);
+            cardView= (CardView) mView.findViewById(R.id.food_entry);
+            moreInfo = (TextView) mView.findViewById(R.id.more_info);
         }
     }
 }
